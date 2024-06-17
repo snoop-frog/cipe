@@ -219,34 +219,34 @@
             document.getElementById('fileUpload').click();
         });
 
-        document.getElementById('fileUpload').addEventListener('change', function (e) {
-            var reader = new FileReader();
-            reader.onload = function (event) {
-                var imgObj = new Image();
-                imgObj.crossOrigin = 'anonymous';
-                imgObj.src = event.target.result;
-                imgObj.onload = function () {
-                    var image = new fabric.Image(imgObj);
-                    var scaleFactor = Math.min(
-                        canvas.width / imgObj.width,
-                        canvas.height / imgObj.height
-                    );
-                    image.set({
-                        left: canvas.width / 2 - (imgObj.width * scaleFactor) / 2,
-                        top: canvas.height / 2 - (imgObj.height * scaleFactor) / 2,
-                        scaleX: scaleFactor,
-                        scaleY: scaleFactor,
-                        selectable: false
-                    });
-                    canvas.clear();
-                    canvas.add(image);
-                    canvas.sendToBack(image);
-                    canvas.renderAll();
-                }
-            }
-            reader.readAsDataURL(e.target.files[0]);
-            document.getElementById('downloadButton').style.display = 'inline-block'; // Show download button
-        });
+document.getElementById('fileUpload').addEventListener('change', function (e) {
+    var reader = new FileReader();
+    reader.onload = function (event) {
+        var imgObj = new Image();
+        imgObj.onload = function () {
+            // Set canvas size to image size
+            canvas.setWidth(imgObj.width);
+            canvas.setHeight(imgObj.height);
+
+            var image = new fabric.Image(imgObj);
+            image.set({
+                left: 0,  // Centering the image on the canvas
+                top: 0,
+                angle: 0,
+                selectable: false
+            });
+
+            canvas.clear();
+            canvas.add(image);
+            canvas.centerObject(image); // Ensure image is centered
+            canvas.renderAll();
+        };
+        imgObj.src = event.target.result;
+    };
+    reader.readAsDataURL(e.target.files[0]);
+    document.getElementById('downloadButton').style.display = 'inline-block'; // Show download button
+});
+
 
         document.getElementById('downloadButton').addEventListener('click', function () {
             console.log('Download Image');
