@@ -72,6 +72,17 @@
             height: auto;
             z-index: 10;
         }
+        .media-links {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* Adjusts space between the buttons */
+}
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;  /* Adjusts space between the buttons */
+}
+
         h1, h2, p, button, a {
             color: #FFF;
             z-index: 2;
@@ -176,13 +187,20 @@
 <body>
     <img src="https://raw.githubusercontent.com/snoop-frog/cipe/main/0D0B7ECA-DB64-4620-ADFF-D24FF6AE21DE.png" alt="EPIC Rune Logo" class="logo">
     <main>
-        <section class="page1">
-            <h1>EPIC Rune (EPIC•EPIC•EPIC•EPIC)</h1>
-            <p>EPIC Rune is the ONLY rune token etched using the 2024 EPIC Sat (block height 840,000) as parent, acquired by XTB from the Blob team.</p>
-            <a href="https://x.com/4xEPIC" target="_blank">Visit EPIC Rune Info</a>
-            <a href="https://x.com/bookofblob" target="_blank">More on Blob Team</a>
-            <a href="https://x.com/decryptmedia/status/1788013497994842244" target="_blank">Web3 - Decrypt</a>
-            <a href="https://www.wired.com/story/time-is-running-out-hunt-for-rare-bitcoin/" target="_blank">Web2 - Wired</a>
+<section class="page1">
+    <h1>EPIC Rune (EPIC•EPIC•EPIC•EPIC)</h1>
+    <p>EPIC Rune is the ONLY rune token etched using the 2024 EPIC Sat (block height 840,000) as parent, acquired by XTB from the Blob team.</p>
+    <div class="button-container">
+        <a href="https://x.com/4xEPIC" target="_blank">Visit EPIC Rune Info</a>
+        <a href="https://x.com/bookofblob" target="_blank">More on Blob Team</a>
+    </div>
+    <p>Media coverage:</p>
+    <div class="media-links">
+        <a href="https://x.com/decryptmedia/status/1788013497994842244" target="_blank">Web3 - Decrypt</a>
+        <a href="https://www.wired.com/story/time-is-running-out-hunt-for-rare-bitcoin/" target="_blank">Web2 - Wired</a>
+    </div>
+</section>
+
         </section>
         <section class="page2">
             <div class="image-tool-container">
@@ -205,11 +223,7 @@
             <h1>Provenance and Vision</h1>
             <p>Blob team's co-founder Eloc, previously Pudgy Penguin CTO, inscribed an interactive generative art by Nuro on the sat and used it as a parent to etch the EPIC Rune token on May 4th, paying tribute to Bitcoin pioneer Hal Finney.</p>
             <p>The vision of EPIC Rune is to become the most epic meme token in the Bitcoin ecosystem and naturally become the top meme coin as the ecosystem grows.</p>
-            <p>Media coverage:</p>
-            
-                <a href="https://x.com/decryptmedia/status/1788013497994842244" target="_blank">Web3 - Decrypt</a> |
-                <a href="https://www.wired.com/story/time-is-running-out-hunt-for-rare-bitcoin/" target="_blank">Web2 - Wired</a>
-            </p>
+
         </section>
     </main>
     <script>
