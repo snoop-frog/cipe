@@ -130,9 +130,12 @@
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
             text-align: center;
         }
-        canvas {
-            margin-top: 20px;
-        }
+canvas {
+    max-width: 100%; /* Ensures canvas is not wider than the screen */
+    display: block; /* Removes extra space below canvas */
+    margin: 0 auto; /* Centers canvas horizontally */
+}
+
         .crown {
             width: 100px;
             cursor: pointer;
@@ -229,27 +232,32 @@
     <script>
         var canvas = new fabric.Canvas('canvas');
         
-        document.getElementById('uploadButton').addEventListener('click', function() {
-            document.getElementById('fileUpload').click();
-        });
+document.getElementById('uploadButton').addEventListener('click', function() {
+    document.getElementById('fileUpload').click();
+});
 
-document.getElementById('fileUpload').addEventListener('change', function (e) {
+document.getElementById('fileUpload').addEventListener('change', function(e) {
     var reader = new FileReader();
-    reader.onload = function (event) {
+    reader.onload = function(event) {
         var imgObj = new Image();
-        imgObj.onload = function () {
-            // Set canvas size to image size
-            canvas.setWidth(imgObj.width);
-            canvas.setHeight(imgObj.height);
+        imgObj.onload = function() {
+            // Calculate scale to fit image to screen
+            var scaleFactor = Math.min((window.innerWidth - 30) / imgObj.width, (window.innerHeight - 100) / imgObj.height);
 
+            // Set canvas size to fit the image
+            canvas.setWidth(imgObj.width * scaleFactor);
+            canvas.setHeight(imgObj.height * scaleFactor);
+
+            // Create and scale image
             var image = new fabric.Image(imgObj);
-            image.set({
-                left: 0,  // Centering the image on the canvas
+            image.scale(scaleFactor).set({
+                left: 0,
                 top: 0,
                 angle: 0,
                 selectable: false
             });
 
+            // Clear previous and add new image
             canvas.clear();
             canvas.add(image);
             canvas.centerObject(image); // Ensure image is centered
@@ -261,33 +269,31 @@ document.getElementById('fileUpload').addEventListener('change', function (e) {
     document.getElementById('downloadButton').style.display = 'inline-block'; // Show download button
 });
 
+document.getElementById('downloadButton').addEventListener('click', function() {
+    const dataUrl = canvas.toDataURL({
+        format: 'png',
+        quality: 0.8
+    });
+    var link = document.createElement('a');
+    link.download = 'EPIC-Creation.png';
+    link.href = dataUrl;
+    link.click();
+});
 
-        document.getElementById('downloadButton').addEventListener('click', function () {
-            console.log('Download Image');
-            const dataUrl=canvas.toDataURL({
-                format: 'png',
-                quality: 0.8
+document.querySelectorAll('.crown').forEach(crown => {
+    crown.addEventListener('click', function() {
+        fabric.Image.fromURL(crown.src, function(img) {
+            var scale = 0.1 * (canvas.width / img.width); // Scale crown to canvas width
+            img.scale(scale).set({
+                left: canvas.width / 2 - (img.getScaledWidth() / 2),
+                top: canvas.height / 2 - (img.getScaledHeight() / 2)
             });
-                var link = document.createElement('a');
-                link.download = 'EPIC-Creation.png';
-                link.href = dataUrl;
-                console.log(dataUrl);
-                link.click();
-        });
-
-        document.querySelectorAll('.crown').forEach(crown => {
-            crown.addEventListener('click', function () {
-                fabric.Image.fromURL(crown.src, function (img) {
-                    img.scale(0.1).set({
-                        left: canvas.width / 2 - (img.width * 0.1) / 2,
-                        top: canvas.height / 2 - (img.height * 0.1) / 2
-                    });
-                    canvas.add(img);
-                    canvas.bringToFront(img);
-                    canvas.renderAll();
-                }, { crossOrigin: 'anonymous' });
-            });
-        });
+            canvas.add(img);
+            canvas.bringToFront(img);
+            canvas.renderAll();
+        }, { crossOrigin: 'anonymous' });
+    });
+});
     </script>
 </body>
 </html>
