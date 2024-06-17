@@ -249,15 +249,16 @@
         });
 
         document.getElementById('downloadButton').addEventListener('click', function () {
-            canvas.toDataURL({
+            console.log('Download Image');
+            const dataUrl=canvas.toDataURL({
                 format: 'png',
                 quality: 0.8
-            }, function(dataUrl) {
+            });
                 var link = document.createElement('a');
                 link.download = 'EPIC-Creation.png';
                 link.href = dataUrl;
+                console.log(dataUrl);
                 link.click();
-            });
         });
 
         document.querySelectorAll('.crown').forEach(crown => {
