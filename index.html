@@ -178,9 +178,11 @@
     <main>
         <section class="page1">
             <h1>EPIC Rune (EPIC•EPIC•EPIC•EPIC)</h1>
-            <p><a href="https://x.com/4xEPIC" target="_blank">Visit EPIC Rune Info</a></p>
+            <a href="https://x.com/4xEPIC" target="_blank">Visit EPIC Rune Info</a>
             <p>EPIC Rune is the ONLY rune token etched using the 2024 EPIC Sat (block height 840,000) as parent, acquired by XTB from the Blob team.</p>
-            <p><a href="https://x.com/bookofblob" target="_blank">More on Blob Team</a></p>
+            <a href="https://x.com/bookofblob" target="_blank">More on Blob Team</a>
+            <a href="https://x.com/decryptmedia/status/1788013497994842244" target="_blank">Web3 - Decrypt</a>
+            <a href="https://www.wired.com/story/time-is-running-out-hunt-for-rare-bitcoin/" target="_blank">Web2 - Wired</a>
         </section>
         <section class="page2">
             <div class="image-tool-container">
@@ -203,11 +205,6 @@
             <h1>Provenance and Vision</h1>
             <p>Blob team's co-founder Eloc, previously Pudgy Penguin CTO, inscribed an interactive generative art by Nuro on the sat and used it as a parent to etch the EPIC Rune token on May 4th, paying tribute to Bitcoin pioneer Hal Finney.</p>
             <p>The vision of EPIC Rune is to become the most epic meme token in the Bitcoin ecosystem and naturally become the top meme coin as the ecosystem grows.</p>
-            <p>Media coverage:</p>
-            <p>
-                <a href="https://x.com/decryptmedia/status/1788013497994842244" target="_blank">Web3 - Decrypt</a> |
-                <a href="https://www.wired.com/story/time-is-running-out-hunt-for-rare-bitcoin/" target="_blank">Web2 - Wired</a>
-            </p>
         </section>
     </main>
     <script>
@@ -252,19 +249,8 @@
             }, function(dataUrl) {
                 var link = document.createElement('a');
                 link.download = 'EPIC-Creation.png';
-                // Ensure compatibility with more browsers:
-                if (document.createEvent) {
-                    var event = document.createEvent('MouseEvents');
-                    event.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-                    link.href = dataUrl;
-                    link.dispatchEvent(event);
-                } else {
-                    link.setAttribute('href', dataUrl);
-                    link.setAttribute('target', '_blank'); // Open in new tab if direct click fails
-                    document.body.appendChild(link); // Append to body to ensure visibility
-                    link.click(); // Attempt to click
-                    document.body.removeChild(link); // Clean up and remove the link
-                }
+                link.href = dataUrl;
+                link.click();
             });
         });
 
