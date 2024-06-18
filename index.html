@@ -145,7 +145,6 @@
         }
 
         canvas {
-            max-width: 100%;
             display: block;
             margin: 0 auto;
             touch-action: none; /* Prevent default touch actions */
@@ -230,7 +229,7 @@
                     </div>
                 </div>
                 <div id="canvasContainer" style="display:none;">
-                    <canvas id="canvas" width="800" height="600"></canvas>
+                    <canvas id="canvas"></canvas>
                 </div>
             </div>
         </section>
@@ -258,25 +257,32 @@
                             selection: false // Disable group selection
                         });
                     }
-                    
+
+                    var maxCanvasWidth = window.innerWidth * 0.7;
+                    var maxCanvasHeight = window.innerHeight * 0.7;
+
                     var scaleFactor = Math.min(
-                        (canvas.width - margin * 2) / imgObj.width,
-                        (canvas.height - margin * 2) / imgObj.height
+                        (maxCanvasWidth - margin * 2) / imgObj.width,
+                        (maxCanvasHeight - margin * 2) / imgObj.height
                     );
+
+                    var canvasWidth = imgObj.width * scaleFactor + margin * 2;
+                    var canvasHeight = imgObj.height * scaleFactor + margin * 2;
+
                     var image = new fabric.Image(imgObj, {
                         selectable: false, // Make it not selectable
                         evented: false, // Make it not react to events
                     });
                     image.scale(scaleFactor).set({
-                        left: (canvas.width - image.getScaledWidth()) / 2,
-                        top: (canvas.height - image.getScaledHeight()) / 2
+                        left: (canvasWidth - image.getScaledWidth()) / 2,
+                        top: (canvasHeight - image.getScaledHeight()) / 2
                     });
 
                     canvas.clear();
                     canvas.add(image);
                     canvas.setDimensions({
-                        width: image.getScaledWidth() + margin * 2,
-                        height: image.getScaledHeight() + margin * 2
+                        width: canvasWidth,
+                        height: canvasHeight
                     });
                     canvas.centerObject(image);
                     canvas.renderAll();
