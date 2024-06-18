@@ -125,6 +125,26 @@
             background: linear-gradient(135deg, #800080 40%, #9921e8 100%);
             box-shadow: 0 8px 16px 0 rgba(152, 33, 232, 0.4);
         }
+
+#buyEpicButton {
+    font-size: 1.5rem; /* Increased font size */
+    padding: 15px 30px; /* Adjusted padding */
+    color: #FFF; /* White text */
+    background: linear-gradient(135deg, #800080 40%, #9921e8 100%); /* Purple gradient */
+    border: none; /* No border */
+    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; /* Irregular blob shape */
+    box-shadow: 0 8px 16px 0 rgba(152, 33, 232, 0.4); /* Shadow to match other buttons */
+    transition: all 0.3s ease; /* Smooth transition for hover effects */
+    cursor: pointer; /* Pointer cursor on hover */
+    text-decoration: none; /* No underline */
+}
+
+#buyEpicButton:hover {
+    transform: scale(1.1); /* Slightly enlarge the button when hovered */
+    background: linear-gradient(135deg, #9921e8 40%, #800080 100%); /* Invert gradient on hover for a dynamic effect */
+}
+
+
         #uploadButton {
             transform: rotate(-5deg);
             border-radius: 60px / 20%;
@@ -153,7 +173,7 @@
                 width: 80px;
             }
             h1 {
-                font-size: 2rem;
+                font-size: 3rem;
             }
             h2 {
                 font-size: 1.5rem;
@@ -174,7 +194,8 @@
                 width: 50px;
             }
             h1 {
-                font-size: 1.8rem;
+                font-size: 1.9
+                8rem;
             }
             h2 {
                 font-size: 1.2rem;
@@ -196,17 +217,14 @@
     <main>
         <section class="page1">
             <img src="https://raw.githubusercontent.com/snoop-frog/cipe/main/0D0B7ECA-DB64-4620-ADFF-D24FF6AE21DE.png" alt="EPIC Rune Logo" class="logo">
-            <h1>EPIC Rune (EPIC•EPIC•EPIC•EPIC)</h1>
-            <p>EPIC Rune is the ONLY rune token etched using the 2024 EPIC Sat (block height 840,000) as parent, acquired by XTB from the Blob team.</p>
-            <div class="button-container">
-                <a href="https://x.com/4xEPIC" target="_blank">Visit EPIC Rune Info</a>
-                <a href="https://x.com/bookofblob" target="_blank">More on Blob Team</a>
-            </div>
-            <p>Media coverage:</p>
-            <div class="media-links">
-                <a href="https://x.com/decryptmedia/status/1788013497994842244" target="_blank">Web3 - Decrypt</a>
-                <a href="https://www.wired.com/story/time-is-running-out-hunt-for-rare-bitcoin/" target="_blank">Web2 - Wired</a>
-            </div>
+            <h1>EPIC•EPIC•EPIC•EPIC</h1>
+            <p>THE ONLY RUNE THAT ETCHED WITH THE FIRST EPIC SAT SINCE ORDINALS AND RUNE PROTOCOL</p>
+            <p>THE EPIC SAT WAS ACQUIRED FOR 33.3BTC IN AN AUCTION</p>
+<div class="button-container">
+    <a id="buyEpicButton" href="https://magiceden.io/runes/EPIC%E2%80%A2EPIC%E2%80%A2EPIC%E2%80%A2EPIC" target="_blank">Buy $EPIC</a>
+</div>
+
+
         </section>
         <section class="page2">
             <div class="image-tool-container" style="position: relative; z-index: 3;">
@@ -219,16 +237,17 @@
                     <input type="file" id="fileUpload" accept="image/*" style="display: none;">
                 </div>
                 <div id="crownContainer" style="z-index: 10;">
-                    <img src="https://raw.githubusercontent.com/snoop-frog/cipe/main/0D0B7ECA-DB64-4620-ADFF-D24FF6AE21DE.png" alt="Crown 1" class="crown" onclick="addCrown(this)">
-                    <img src="https://raw.githubusercontent.com/snoop-frog/cipe/main/3721ACB6-755A-4E05-B754-D6DB4E2B1190.png" alt="Crown 2" class="crown" onclick="addCrown(this)">
+                    <img src="https://raw.githubusercontent.com/snoop-frog/cipe/main/3721ACB6-755A-4E05-B754-D6DB4E2B1190.png" alt="Crown 1" class="crown" onclick="addCrown(this)">
+                    <img src="https://raw.githubusercontent.com/snoop-frog/cipe/main/0D0B7ECA-DB64-4620-ADFF-D24FF6AE21DE.png" alt="Crown 2" class="crown" onclick="addCrown(this)">
                 </div>
                 <canvas id="canvas" width="800" height="600"></canvas>
             </div>
         </section>
         <section class="page3">
-            <h1>Provenance and Vision</h1>
-            <p>Blob team's co-founder Eloc, previously Pudgy Penguin CTO, inscribed an interactive generative art by Nuro on the sat and used it as a parent to etch the EPIC Rune token on May 4th, paying tribute to Bitcoin pioneer Hal Finney.</p>
-            <p>The vision of EPIC Rune is to become the most epic meme token in the Bitcoin ecosystem and naturally become the top meme coin as the ecosystem grows.</p>
+            <h1>$EPIC IS EPIC</h1>
+            
+            <p>TWITTER LOGO HERE</p>
+            <p>DISCORD LOGO HERE - COMING SOON</p>
         </section>
     </main>
     <script>
