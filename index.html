@@ -133,6 +133,10 @@
             justify-content: center;
             margin-top: 50px; /* Added margin to move it down */
         }
+        #canvasContainer, #crownContainer, #downloadButton {
+    display: none; /* Initially hide these elements */
+}
+
         .crown-instructions {
             color: white;
             background: rgba(0, 0, 0, 0.6);
@@ -218,8 +222,8 @@
         </section>
         <section class="page2">
             <div class="image-tool-container" id="imageToolContainer" style="position: relative; z-index: 3;">
-                <h1 id="pageTitle" style="margin-bottom: 250px;">Make Your PFP EPIC</h1> <!-- Added margin to move it up -->
-                <div class="upload-container" id="uploadContainer" style="margin-bottom: 30px;"> <!-- Added margin to move it up -->
+<h1 id="pageTitle" style="margin-bottom: 150px;">Make Your PFP EPIC</h1>
+                <div class="upload-container" id="uploadContainer" style="margin-bottom: 50px;"> <!-- Added margin to move it up -->
                     <button id="uploadButton" class="blob-button">Upload Image</button>
                     <button id="downloadButton" class="blob-button" style="display:none;">Download Image</button>
                     <input type="file" id="fileUpload" accept="image/*" style="display: none;">
@@ -268,59 +272,60 @@
             document.getElementById('fileUpload').click();
         });
 
-        document.getElementById('fileUpload').addEventListener('change', function(e) {
-            var reader = new FileReader();
-            reader.onload = function(event) {
-                var imgObj = new Image();
-                imgObj.onload = function() {
-                    if (!canvas) {
-                        canvas = new fabric.Canvas('canvas', {
-                            selection: false // Disable group selection
-                        });
-                    }
+document.getElementById('fileUpload').addEventListener('change', function(e) {
+    var reader = new FileReader();
+    reader.onload = function(event) {
+        var imgObj = new Image();
+        imgObj.onload = function() {
+            if (!canvas) {
+                canvas = new fabric.Canvas('canvas', {
+                    selection: false // Disable group selection
+                });
+            }
 
-                    // Adjust canvas size based on screen size
-                    var maxCanvasWidth = window.innerWidth * (window.innerWidth > 768 ? 0.7 : 0.9);
-                    var maxCanvasHeight = window.innerHeight * (window.innerHeight > 768 ? 0.7 : 0.9);
+            var maxCanvasWidth = window.innerWidth * (window.innerWidth > 768 ? 0.7 : 0.9);
+            var maxCanvasHeight = window.innerHeight * (window.innerHeight > 768 ? 0.7 : 0.9);
 
-                    // Calculate scale factor to fit image within canvas
-                    var scaleFactor = Math.min(
-                        maxCanvasWidth / imgObj.width,
-                        maxCanvasHeight / imgObj.height
-                    );
+            var scaleFactor = Math.min(
+                maxCanvasWidth / imgObj.width,
+                maxCanvasHeight / imgObj.height
+            );
 
-                    var canvasWidth = imgObj.width * scaleFactor;
-                    var canvasHeight = imgObj.height * scaleFactor;
+            var canvasWidth = imgObj.width * scaleFactor;
+            var canvasHeight = imgObj.height * scaleFactor;
 
-                    var image = new fabric.Image(imgObj, {
-                        selectable: false, // Make it not selectable
-                        evented: false, // Make it not react to events
-                    });
-                    image.scale(scaleFactor).set({
-                        left: (canvasWidth - image.getScaledWidth()) / 2,
-                        top: (canvasHeight - image.getScaledHeight()) / 2
-                    });
+            var image = new fabric.Image(imgObj, {
+                selectable: false,
+                evented: false,
+            });
+            image.scale(scaleFactor).set({
+                left: (canvasWidth - image.getScaledWidth()) / 2,
+                top: (canvasHeight - image.getScaledHeight()) / 2
+            });
 
-                    canvas.clear();
-                    canvas.setDimensions({
-                        width: canvasWidth,
-                        height: canvasHeight
-                    });
-                    canvas.add(image);
-                    canvas.centerObject(image);
-                    canvas.renderAll();
-                    document.getElementById('canvasContainer').style.display = 'flex';
-                };
-                imgObj.src = event.target.result;
+            canvas.clear();
+            canvas.setDimensions({
+                width: canvasWidth,
+                height: canvasHeight
+            });
+            canvas.add(image);
+            canvas.centerObject(image);
+            canvas.renderAll();
 
-                // Remove margins once image is uploaded
-                document.getElementById('pageTitle').style.marginBottom = '0';
-                document.getElementById('uploadContainer').style.marginBottom = '0';
-                document.getElementById('crownContainer').style.marginTop = '0';
-            };
-            reader.readAsDataURL(e.target.files[0]);
+            // Show elements only after the image is loaded onto the canvas
+            document.getElementById('canvasContainer').style.display = 'flex';
+            document.getElementById('crownContainer').style.display = 'block'; // Adjust as needed
             document.getElementById('downloadButton').style.display = 'inline-block';
-        });
+            
+            // Hide the "Make Your PFP EPIC" text
+            document.getElementById('pageTitle').style.display = 'none';
+        };
+        imgObj.src = event.target.result;
+    };
+    reader.readAsDataURL(e.target.files[0]);
+});
+
+
 
         document.getElementById('downloadButton').addEventListener('click', function() {
             const dataUrl = canvas.toDataURL({
