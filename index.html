@@ -219,8 +219,8 @@
                     <input type="file" id="fileUpload" accept="image/*" style="display: none;">
                 </div>
                 <div id="crownContainer" style="z-index: 10;">
-                    <img src="https://raw.githubusercontent.com/snoop-frog/cipe/main/0D0B7ECA-DB64-4620-ADFF-D24FF6AE21DE.png" alt="Crown 1" class="crown">
-                    <img src="https://raw.githubusercontent.com/snoop-frog/cipe/main/3721ACB6-755A-4E05-B754-D6DB4E2B1190.png" alt="Crown 2" class="crown">
+                    <img src="https://raw.githubusercontent.com/snoop-frog/cipe/main/0D0B7ECA-DB64-4620-ADFF-D24FF6AE21DE.png" alt="Crown 1" class="crown" onclick="addCrown(this)">
+                    <img src="https://raw.githubusercontent.com/snoop-frog/cipe/main/3721ACB6-755A-4E05-B754-D6DB4E2B1190.png" alt="Crown 2" class="crown" onclick="addCrown(this)">
                 </div>
                 <canvas id="canvas" width="800" height="600"></canvas>
             </div>
@@ -233,10 +233,11 @@
     </main>
     <script>
         var canvas = new fabric.Canvas('canvas', {
-            width: 800,  // Set a fixed width for the canvas
-            height: 600  // Set a fixed height for the canvas
+            width: 800,
+            height: 600,
+            selection: false // Disable group selection
         });
-        
+
         document.getElementById('uploadButton').addEventListener('click', function() {
             document.getElementById('fileUpload').click();
         });
@@ -246,31 +247,28 @@
             reader.onload = function(event) {
                 var imgObj = new Image();
                 imgObj.onload = function() {
-                    // Calculate scale to fit image within the fixed canvas size
                     var scaleFactor = Math.min(
-                        canvas.width / imgObj.width,  // Scale based on canvas width
-                        canvas.height / imgObj.height // Scale based on canvas height
+                        canvas.width / imgObj.width,
+                        canvas.height / imgObj.height
                     );
-                    
-                    // Create and scale image
-                    var image = new fabric.Image(imgObj);
+                    var image = new fabric.Image(imgObj, {
+                        selectable: false, // Make it not selectable
+                        evented: false, // Make it not react to events
+                    });
                     image.scale(scaleFactor).set({
                         left: canvas.width / 2 - (image.getScaledWidth() / 2),
-                        top: canvas.height / 2 - (image.getScaledHeight() / 2),
-                        angle: 0,
-                        selectable: false
+                        top: canvas.height / 2 - (image.getScaledHeight() / 2)
                     });
 
-                    // Clear previous and add new image
                     canvas.clear();
                     canvas.add(image);
-                    canvas.centerObject(image); // Ensure image is centered
+                    canvas.centerObject(image);
                     canvas.renderAll();
                 };
                 imgObj.src = event.target.result;
             };
             reader.readAsDataURL(e.target.files[0]);
-            document.getElementById('downloadButton').style.display = 'inline-block'; // Show download button
+            document.getElementById('downloadButton').style.display = 'inline-block';
         });
 
         document.getElementById('downloadButton').addEventListener('click', function() {
@@ -284,20 +282,24 @@
             link.click();
         });
 
-        document.querySelectorAll('.crown').forEach(crown => {
-            crown.addEventListener('click', function() {
-                fabric.Image.fromURL(crown.src, function(img) {
-                    var scale = 0.3 * (canvas.width / img.width); // Scale crown to canvas width
-                    img.scale(scale).set({
-                        left: canvas.width / 2 - (img.getScaledWidth() / 2),
-                        top: canvas.height / 2 - (img.getScaledHeight() / 2)
-                    });
-                    canvas.add(img);
-                    canvas.bringToFront(img);
-                    canvas.renderAll();
-                }, { crossOrigin: 'anonymous' });
-            });
-        });
+        function addCrown(element) {
+            fabric.Image.fromURL(element.src, function(img) {
+                var scale = 0.3 * (canvas.width / img.width);
+                img.scale(scale).set({
+                    left: canvas.width / 2 - (img.getScaledWidth() / 2),
+                    top: canvas.height / 2 - (img.getScaledHeight() / 2),
+                    hasControls: true,
+                    hasBorders: true,
+                    selectable: true
+                });
+                img.on('mousedblclick', function() {
+                    canvas.remove(img);
+                });
+                canvas.add(img);
+                canvas.bringToFront(img);
+                canvas.renderAll();
+            }, { crossOrigin: 'anonymous' });
+        }
     </script>
 </body>
 </html>
