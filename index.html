@@ -127,6 +127,23 @@
 .blob-button:hover {
     transform: scale(1.1);
 }
+#crownContainer {
+    text-align: center; /* Centers all child elements, including images and text */
+    position: relative; /* Ensures positioning is relative to this container */
+    display: flex; /* Uses flexbox for easy centering */
+    flex-direction: column; /* Aligns children vertically */
+    align-items: center; /* Centers children horizontally */
+    justify-content: center; /* Optional, in case you want vertical centering within the container */
+}
+
+.crown-instructions {
+    color: white; /* Keeps the text color white */
+    background: rgba(0, 0, 0, 0.6); /* Semi-transparent black background */
+    padding: 8px 20px; /* Adjusts padding around the text */
+    border-radius: 5px; /* Rounds the corners of the background */
+    margin-top: 20px; /* Adds space between the crowns and the text */
+}
+
 
 
         canvas {
@@ -204,10 +221,17 @@
                     <button id="downloadButton" class="blob-button" style="display:none;">Download Image</button>
                     <input type="file" id="fileUpload" accept="image/*" style="display: none;">
                 </div>
-                <div id="crownContainer" style="z-index: 10;">
-                    <img src="https://raw.githubusercontent.com/snoop-frog/cipe/main/3721ACB6-755A-4E05-B754-D6DB4E2B1190.png" alt="Crown 1" class="crown" onclick="addCrown(this)">
-                    <img src="https://raw.githubusercontent.com/snoop-frog/cipe/main/0D0B7ECA-DB64-4620-ADFF-D24FF6AE21DE.png" alt="Crown 2" class="crown" onclick="addCrown(this)">
-                </div>
+<div id="crownContainer" style="z-index: 10;">
+    <!-- Crown images side by side -->
+    <div class="crown-row">
+        <img src="https://raw.githubusercontent.com/snoop-frog/cipe/main/3721ACB6-755A-4E05-B754-D6DB4E2B1190.png" alt="Crown 1" class="crown" onclick="addCrown(this)">
+        <img src="https://raw.githubusercontent.com/snoop-frog/cipe/main/0D0B7ECA-DB64-4620-ADFF-D24FF6AE21DE.png" alt="Crown 2" class="crown" onclick="addCrown(this)">
+    </div>
+    <!-- Text directly under the crowns -->
+    <div class="crown-instructions">Pick your crown - double click it to remove</div>
+</div>
+
+
                 <canvas id="canvas" width="800" height="600"></canvas>
             </div>
         </section>
@@ -224,38 +248,38 @@
             selection: false // Disable group selection
         });
 
-        document.getElementById('uploadButton').addEventListener('click', function() {
-            document.getElementById('fileUpload').click();
-        });
+document.getElementById('uploadButton').addEventListener('click', function() {
+    document.getElementById('fileUpload').click();
+});
 
-        document.getElementById('fileUpload').addEventListener('change', function(e) {
-            var reader = new FileReader();
-            reader.onload = function(event) {
-                var imgObj = new Image();
-                imgObj.onload = function() {
-                    var scaleFactor = Math.min(
-                        canvas.width / imgObj.width,
-                        canvas.height / imgObj.height
-                    );
-                    var image = new fabric.Image(imgObj, {
-                        selectable: false, // Make it not selectable
-                        evented: false, // Make it not react to events
-                    });
-                    image.scale(scaleFactor).set({
-                        left: canvas.width / 2 - (image.getScaledWidth() / 2),
-                        top: canvas.height / 2 - (image.getScaledHeight() / 2)
-                    });
+document.getElementById('fileUpload').addEventListener('change', function(e) {
+    var reader = new FileReader();
+    reader.onload = function(event) {
+        var imgObj = new Image();
+        imgObj.onload = function() {
+            // Adjust canvas size to match image size
+            canvas.setHeight(imgObj.height);
+            canvas.setWidth(imgObj.width);
 
-                    canvas.clear();
-                    canvas.add(image);
-                    canvas.centerObject(image);
-                    canvas.renderAll();
-                };
-                imgObj.src = event.target.result;
-            };
-            reader.readAsDataURL(e.target.files[0]);
-            document.getElementById('downloadButton').style.display = 'inline-block';
-        });
+            var image = new fabric.Image(imgObj, {
+                selectable: false, // Make it not selectable
+                evented: false, // Make it not react to events
+            });
+            image.set({
+                left: 0,
+                top: 0
+            });
+
+            canvas.clear();
+            canvas.add(image);
+            canvas.renderAll();
+        };
+        imgObj.src = event.target.result;
+    };
+    reader.readAsDataURL(e.target.files[0]);
+    document.getElementById('downloadButton').style.display = 'inline-block';
+});
+
 
         document.getElementById('downloadButton').addEventListener('click', function() {
             const dataUrl = canvas.toDataURL({
