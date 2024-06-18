@@ -250,6 +250,8 @@
             selection: false // Disable group selection
         });
 
+        var margin = 20; // Set a margin value
+
         document.getElementById('uploadButton').addEventListener('click', function() {
             document.getElementById('fileUpload').click();
         });
@@ -260,16 +262,16 @@
                 var imgObj = new Image();
                 imgObj.onload = function() {
                     var scaleFactor = Math.min(
-                        canvas.width / imgObj.width,
-                        canvas.height / imgObj.height
+                        (canvas.width - margin * 2) / imgObj.width,
+                        (canvas.height - margin * 2) / imgObj.height
                     );
                     var image = new fabric.Image(imgObj, {
                         selectable: false, // Make it not selectable
                         evented: false, // Make it not react to events
                     });
                     image.scale(scaleFactor).set({
-                        left: canvas.width / 2 - (image.getScaledWidth() / 2),
-                        top: canvas.height / 2 - (image.getScaledHeight() / 2)
+                        left: (canvas.width - image.getScaledWidth()) / 2,
+                        top: (canvas.height - image.getScaledHeight()) / 2
                     });
 
                     canvas.clear();
