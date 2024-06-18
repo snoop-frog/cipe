@@ -229,7 +229,9 @@
                         <img src="https://raw.githubusercontent.com/snoop-frog/cipe/main/0D0B7ECA-DB64-4620-ADFF-D24FF6AE21DE.png" alt="Crown 2" class="crown" onclick="addCrown(this)">
                     </div>
                 </div>
-                <canvas id="canvas" width="800" height="600"></canvas>
+                <div id="canvasContainer" style="display:none;">
+                    <canvas id="canvas" width="800" height="600"></canvas>
+                </div>
             </div>
         </section>
         <section class="page3">
@@ -239,10 +241,7 @@
         </section>
     </main>
     <script>
-        var canvas = new fabric.Canvas('canvas', {
-            selection: false // Disable group selection
-        });
-
+        var canvas;
         var margin = 20; // Set a margin value
 
         document.getElementById('uploadButton').addEventListener('click', function() {
@@ -254,6 +253,12 @@
             reader.onload = function(event) {
                 var imgObj = new Image();
                 imgObj.onload = function() {
+                    if (!canvas) {
+                        canvas = new fabric.Canvas('canvas', {
+                            selection: false // Disable group selection
+                        });
+                    }
+                    
                     var scaleFactor = Math.min(
                         (canvas.width - margin * 2) / imgObj.width,
                         (canvas.height - margin * 2) / imgObj.height
@@ -275,6 +280,7 @@
                     });
                     canvas.centerObject(image);
                     canvas.renderAll();
+                    document.getElementById('canvasContainer').style.display = 'block';
                 };
                 imgObj.src = event.target.result;
             };
@@ -329,10 +335,11 @@
         });
 
         // Enable scrolling by disabling touch action on the canvas
-        document.getElementById('canvas').style.touchAction = 'auto';
+        document.getElementById('canvasContainer').style.touchAction = 'auto';
         
         // Handle touch events for objects only
-        canvas.on('touch:gesture', function(opt) {
+        document.addEventListener('touch:gesture', function(opt) {
+            if (!canvas) return;
             var target = canvas.findTarget(opt.e);
             if (target) {
                 canvas.allowTouchScrolling = false;
@@ -342,7 +349,8 @@
             }
         });
 
-        canvas.on('touch:drag', function(opt) {
+        document.addEventListener('touch:drag', function(opt) {
+            if (!canvas) return;
             var target = canvas.findTarget(opt.e);
             if (target) {
                 canvas.allowTouchScrolling = false;
@@ -352,7 +360,8 @@
             }
         });
         
-        canvas.on('mouse:down', function(opt) {
+        document.addEventListener('mouse:down', function(opt) {
+            if (!canvas) return;
             var target = canvas.findTarget(opt.e);
             if (target) {
                 canvas.allowTouchScrolling = false;
@@ -361,7 +370,8 @@
             }
         });
         
-        canvas.on('mouse:up', function() {
+        document.addEventListener('mouse:up', function() {
+            if (!canvas) return;
             canvas.allowTouchScrolling = true;
         });
     </script>
