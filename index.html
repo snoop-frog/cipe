@@ -131,6 +131,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            margin-top: 50px; /* Added margin to move it down */
         }
         .crown-instructions {
             color: white;
@@ -212,8 +213,8 @@
         </section>
         <section class="page2">
             <div class="image-tool-container" style="position: relative; z-index: 3;">
-                <h1>Make Your PFP EPIC</h1>
-                <div class="upload-container">
+                <h1 style="margin-bottom: 250px;">Make Your PFP EPIC</h1> <!-- Added margin to move it up -->
+                <div class="upload-container" style="margin-bottom: 30px;"> <!-- Added margin to move it up -->
                     <button id="uploadButton" class="blob-button">Upload Image</button>
                     <button id="downloadButton" class="blob-button" style="display:none;">Download Image</button>
                     <input type="file" id="fileUpload" accept="image/*" style="display: none;">
