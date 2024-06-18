@@ -19,9 +19,6 @@
             overflow-x: hidden;
             font-family: 'FaceYourFears', sans-serif;
         }
-        body {
-            overflow-y: hidden;
-        }
         main {
             height: 100vh;
             overflow-y: scroll;
@@ -112,7 +109,7 @@
             color: #800080;
         }
         .blob-button {
-            font-family: 'FaceYourFears', sans-serif; /* Explicitly setting the font-family */
+            font-family: 'FaceYourFears', sans-serif;
             font-size: 1rem;
             padding: 12px 24px;
             color: #FFF;
@@ -123,44 +120,39 @@
             box-shadow: 0 8px 16px 0 rgba(152, 33, 232, 0.4);
             text-decoration: none;
         }
-
         .blob-button:hover {
             transform: scale(1.1);
         }
         #crownContainer {
-            text-align: center; /* Centers all child elements, including images and text */
-            position: relative; /* Ensures positioning is relative to this container */
-            display: flex; /* Uses flexbox for easy centering */
-            flex-direction: column; /* Aligns children vertically */
-            align-items: center; /* Centers children horizontally */
-            justify-content: center; /* Optional, in case you want vertical centering within the container */
+            text-align: center;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
-
         .crown-instructions {
-            color: white; /* Keeps the text color white */
-            background: rgba(0, 0, 0, 0.6); /* Semi-transparent black background */
-            padding: 8px 20px; /* Adjusts padding around the text */
-            border-radius: 5px; /* Rounds the corners of the background */
-            margin-top: 20px; /* Adds space between the crowns and the text */
+            color: white;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 8px 20px;
+            border-radius: 5px;
+            margin-top: 20px;
         }
-
         #canvasContainer {
             display: flex;
             justify-content: center;
             alignItems: center;
             width: 100%;
         }
-
         canvas {
-            touch-action: none; /* Prevent default touch actions */
+            touch-action: none;
         }
-
         .crown {
             width: 100px;
             cursor: pointer;
             display: inline-block;
             margin: 5px;
-            z-index: 5; /* Higher z-index to bring crowns to the front */
+            z-index: 5;
         }
         @media (max-width: 768px) {
             .logo {
@@ -232,24 +224,23 @@
                     <div class="crown-row">
                         <img src="https://raw.githubusercontent.com/snoop-frog/cipe/main/3721ACB6-755A-4E05-B754-D6DB4E2B1190.png" alt="Crown 1" class="crown" onclick="addCrown(this)">
                         <img src="https://raw.githubusercontent.com/snoop-frog/cipe/main/0D0B7ECA-DB64-4620-ADFF-D24FF6AE21DE.png" alt="Crown 2" class="crown" onclick="addCrown(this)">
+                    </div>
                 </div>
                 <div id="canvasContainer" style="display:none;">
                     <canvas id="canvas"></canvas>
                 </div>
             </div>
         </section>
-<section class="page3">
-    <h1>$EPIC IS EPIC</h1>
-    <div style="z-index: 10; position: relative; text-align: center;"> <!-- Ensures the logos are above the opacity layer and centered -->
-        <a href="https://x.com" target="_blank">
-            <img src="https://raw.githubusercontent.com/snoop-frog/cipe/main/xdoodle.png" alt="X Logo" style="width: 50px; display: inline-block; vertical-align: middle;">
-        </a>
-        <img src="https://raw.githubusercontent.com/snoop-frog/cipe/main/discord%20doodle.png" alt="Discord Logo" style="width: 50px; display: inline-block; vertical-align: middle;">
-        <p style="margin-top: 20px;">Discord Coming Soon</p>
-    </div>
-</section>
-
-
+        <section class="page3">
+            <h1>$EPIC IS EPIC</h1>
+            <div style="z-index: 10; position: relative; text-align: center;">
+                <a href="https://x.com" target="_blank">
+                    <img src="https://raw.githubusercontent.com/snoop-frog/cipe/main/xpurple5.png" alt="X Logo" style="width: 50px; display: inline-block; vertical-align: middle;">
+                </a>
+                <img src="https://raw.githubusercontent.com/snoop-frog/cipe/main/discord%20doodle.png" alt="Discord Logo" style="width: 50px; display: inline-block; vertical-align: middle;">
+                <p style="margin-top: 20px;">Coming Soon</p>
+            </div>
+        </section>
     </main>
     <script>
         var canvas;
@@ -270,55 +261,54 @@
             document.getElementById('fileUpload').click();
         });
 
-document.getElementById('fileUpload').addEventListener('change', function(e) {
-    var reader = new FileReader();
-    reader.onload = function(event) {
-        var imgObj = new Image();
-        imgObj.onload = function() {
-            if (!canvas) {
-                canvas = new fabric.Canvas('canvas', {
-                    selection: false // Disable group selection
-                });
-            }
+        document.getElementById('fileUpload').addEventListener('change', function(e) {
+            var reader = new FileReader();
+            reader.onload = function(event) {
+                var imgObj = new Image();
+                imgObj.onload = function() {
+                    if (!canvas) {
+                        canvas = new fabric.Canvas('canvas', {
+                            selection: false // Disable group selection
+                        });
+                    }
 
-            // Adjust canvas size based on screen size
-            var maxCanvasWidth = window.innerWidth * (window.innerWidth > 768 ? 0.7 : 0.9);
-            var maxCanvasHeight = window.innerHeight * (window.innerHeight > 768 ? 0.7 : 0.9);
+                    // Adjust canvas size based on screen size
+                    var maxCanvasWidth = window.innerWidth * (window.innerWidth > 768 ? 0.7 : 0.9);
+                    var maxCanvasHeight = window.innerHeight * (window.innerHeight > 768 ? 0.7 : 0.9);
 
-            // Calculate scale factor to fit image within canvas
-            var scaleFactor = Math.min(
-                maxCanvasWidth / imgObj.width,
-                maxCanvasHeight / imgObj.height
-            );
+                    // Calculate scale factor to fit image within canvas
+                    var scaleFactor = Math.min(
+                        maxCanvasWidth / imgObj.width,
+                        maxCanvasHeight / imgObj.height
+                    );
 
-            var canvasWidth = imgObj.width * scaleFactor;
-            var canvasHeight = imgObj.height * scaleFactor;
+                    var canvasWidth = imgObj.width * scaleFactor;
+                    var canvasHeight = imgObj.height * scaleFactor;
 
-            var image = new fabric.Image(imgObj, {
-                selectable: false, // Make it not selectable
-                evented: false, // Make it not react to events
-            });
-            image.scale(scaleFactor).set({
-                left: (canvasWidth - image.getScaledWidth()) / 2,
-                top: (canvasHeight - image.getScaledHeight()) / 2
-            });
+                    var image = new fabric.Image(imgObj, {
+                        selectable: false, // Make it not selectable
+                        evented: false, // Make it not react to events
+                    });
+                    image.scale(scaleFactor).set({
+                        left: (canvasWidth - image.getScaledWidth()) / 2,
+                        top: (canvasHeight - image.getScaledHeight()) / 2
+                    });
 
-            canvas.clear();
-            canvas.setDimensions({
-                width: canvasWidth,
-                height: canvasHeight
-            });
-            canvas.add(image);
-            canvas.centerObject(image);
-            canvas.renderAll();
-            document.getElementById('canvasContainer').style.display = 'flex';
-        };
-        imgObj.src = event.target.result;
-    };
-    reader.readAsDataURL(e.target.files[0]);
-    document.getElementById('downloadButton').style.display = 'inline-block';
-});
-
+                    canvas.clear();
+                    canvas.setDimensions({
+                        width: canvasWidth,
+                        height: canvasHeight
+                    });
+                    canvas.add(image);
+                    canvas.centerObject(image);
+                    canvas.renderAll();
+                    document.getElementById('canvasContainer').style.display = 'flex';
+                };
+                imgObj.src = event.target.result;
+            };
+            reader.readAsDataURL(e.target.files[0]);
+            document.getElementById('downloadButton').style.display = 'inline-block';
+        });
 
         document.getElementById('downloadButton').addEventListener('click', function() {
             const dataUrl = canvas.toDataURL({
@@ -358,7 +348,22 @@ document.getElementById('fileUpload').addEventListener('change', function(e) {
                 canvas.renderAll();
             }, { crossOrigin: 'anonymous' });
         }
+
+        // Dynamically shape blob buttons
+        document.addEventListener('DOMContentLoaded', function() {
+            const blobButtons = document.querySelectorAll('.blob-button');
+            blobButtons.forEach(button => {
+                const radius1 = Math.floor(Math.random() * 81) + 20; // 20% to 100%
+                const radius2 = Math.floor(Math.random() * 81) + 20;
+                const radius3 = Math.floor(Math.random() * 81) + 20;
+                const radius4 = Math.floor(Math.random() * 81) + 20;
+                const radius5 = Math.floor(Math.random() * 81) + 20;
+                const radius6 = Math.floor(Math.random() * 81) + 20;
+                const radius7 = Math.floor(Math.random() * 81) + 20;
+                const radius8 = Math.floor(Math.random() * 81) + 20;
+                button.style.borderRadius = `${radius1}% ${radius2}% ${radius3}% ${radius4}% / ${radius5}% ${radius6}% ${radius7}% ${radius8}%`;
+            });
+        });
     </script>
 </body>
 </html>
-
