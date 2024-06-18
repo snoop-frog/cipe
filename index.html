@@ -144,11 +144,17 @@
             margin-top: 20px; /* Adds space between the crowns and the text */
         }
 
+        #canvasContainer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
         canvas {
-            display: block;
-            margin: 0 auto;
             touch-action: none; /* Prevent default touch actions */
         }
+
         .crown {
             width: 100px;
             cursor: pointer;
@@ -274,8 +280,8 @@
                         evented: false, // Make it not react to events
                     });
                     image.scale(scaleFactor).set({
-                        left: margin,
-                        top: margin
+                        left: (canvasWidth - image.getScaledWidth()) / 2,
+                        top: (canvasHeight - image.getScaledHeight()) / 2
                     });
 
                     canvas.clear();
@@ -284,10 +290,9 @@
                         height: canvasHeight
                     });
                     canvas.add(image);
-                    canvas.renderAll();
-                    document.getElementById('canvasContainer').style.display = 'block';
                     canvas.centerObject(image);
                     canvas.renderAll();
+                    document.getElementById('canvasContainer').style.display = 'flex';
                 };
                 imgObj.src = event.target.result;
             };
