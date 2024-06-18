@@ -274,19 +274,20 @@
                         evented: false, // Make it not react to events
                     });
                     image.scale(scaleFactor).set({
-                        left: (canvasWidth - image.getScaledWidth()) / 2,
-                        top: (canvasHeight - image.getScaledHeight()) / 2
+                        left: margin,
+                        top: margin
                     });
 
                     canvas.clear();
-                    canvas.add(image);
                     canvas.setDimensions({
                         width: canvasWidth,
                         height: canvasHeight
                     });
-                    canvas.centerObject(image);
+                    canvas.add(image);
                     canvas.renderAll();
                     document.getElementById('canvasContainer').style.display = 'block';
+                    canvas.centerObject(image);
+                    canvas.renderAll();
                 };
                 imgObj.src = event.target.result;
             };
