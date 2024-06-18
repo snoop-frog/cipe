@@ -212,9 +212,9 @@
             </div>
         </section>
         <section class="page2">
-            <div class="image-tool-container" style="position: relative; z-index: 3;">
-                <h1 style="margin-bottom: 250px;">Make Your PFP EPIC</h1> <!-- Added margin to move it up -->
-                <div class="upload-container" style="margin-bottom: 30px;"> <!-- Added margin to move it up -->
+            <div class="image-tool-container" id="imageToolContainer" style="position: relative; z-index: 3;">
+                <h1 id="pageTitle" style="margin-bottom: 30px;">Make Your PFP EPIC</h1> <!-- Added margin to move it up -->
+                <div class="upload-container" id="uploadContainer" style="margin-bottom: 30px;"> <!-- Added margin to move it up -->
                     <button id="uploadButton" class="blob-button">Upload Image</button>
                     <button id="downloadButton" class="blob-button" style="display:none;">Download Image</button>
                     <input type="file" id="fileUpload" accept="image/*" style="display: none;">
@@ -307,6 +307,11 @@
                     document.getElementById('canvasContainer').style.display = 'flex';
                 };
                 imgObj.src = event.target.result;
+
+                // Remove margins once image is uploaded
+                document.getElementById('pageTitle').style.marginBottom = '0';
+                document.getElementById('uploadContainer').style.marginBottom = '0';
+                document.getElementById('crownContainer').style.marginTop = '0';
             };
             reader.readAsDataURL(e.target.files[0]);
             document.getElementById('downloadButton').style.display = 'inline-block';
