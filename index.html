@@ -111,51 +111,24 @@
             text-decoration: underline;
             color: #800080;
         }
-        button {
-            background-color: #800080;
-            border: none;
-            padding: 12px 24px;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin: 10px 20px;
-            color: #FFF;
-            font-family: 'FaceYourFears', sans-serif;
-            border-radius: 50px / 30%;
-            background: linear-gradient(135deg, #800080 40%, #9921e8 100%);
-            box-shadow: 0 8px 16px 0 rgba(152, 33, 232, 0.4);
-        }
-
-#buyEpicButton {
-    font-size: 1.5rem; /* Increased font size */
-    padding: 15px 30px; /* Adjusted padding */
-    color: #FFF; /* White text */
-    background: linear-gradient(135deg, #800080 40%, #9921e8 100%); /* Purple gradient */
-    border: none; /* No border */
-    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; /* Irregular blob shape */
-    box-shadow: 0 8px 16px 0 rgba(152, 33, 232, 0.4); /* Shadow to match other buttons */
-    transition: all 0.3s ease; /* Smooth transition for hover effects */
-    cursor: pointer; /* Pointer cursor on hover */
-    text-decoration: none; /* No underline */
+.blob-button {
+    font-family: 'FaceYourFears', sans-serif; /* Explicitly setting the font-family */
+    font-size: 1rem;
+    padding: 12px 24px;
+    color: #FFF;
+    background: linear-gradient(135deg, #800080 40%, #9921e8 100%);
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 16px 0 rgba(152, 33, 232, 0.4);
+    text-decoration: none;
 }
 
-#buyEpicButton:hover {
-    transform: scale(1.1); /* Slightly enlarge the button when hovered */
-    background: linear-gradient(135deg, #9921e8 40%, #800080 100%); /* Invert gradient on hover for a dynamic effect */
+.blob-button:hover {
+    transform: scale(1.1);
 }
 
 
-        #uploadButton {
-            transform: rotate(-5deg);
-            border-radius: 60px / 20%;
-        }
-        #downloadButton {
-            transform: rotate(3deg);
-            border-radius: 40px / 25%;
-        }
-        button:hover {
-            transform: scale(1.05);
-        }
         canvas {
             max-width: 100%;
             display: block;
@@ -194,8 +167,7 @@
                 width: 50px;
             }
             h1 {
-                font-size: 1.9
-                8rem;
+                font-size: 1.8rem;
             }
             h2 {
                 font-size: 1.2rem;
@@ -220,34 +192,29 @@
             <h1>EPIC•EPIC•EPIC•EPIC</h1>
             <p>THE ONLY RUNE THAT ETCHED WITH THE FIRST EPIC SAT SINCE ORDINALS AND RUNE PROTOCOL</p>
             <p>THE EPIC SAT WAS ACQUIRED FOR 33.3BTC IN AN AUCTION</p>
-<div class="button-container">
-    <a id="buyEpicButton" href="https://magiceden.io/runes/EPIC%E2%80%A2EPIC%E2%80%A2EPIC%E2%80%A2EPIC" target="_blank">Buy $EPIC</a>
-</div>
-
-
+            <div class="button-container">
+                <a href="https://magiceden.io/runes/EPIC%E2%80%A2EPIC%E2%80%A2EPIC%E2%80%A2EPIC" target="_blank" class="blob-button">Buy $EPIC</a>
+            </div>
         </section>
         <section class="page2">
             <div class="image-tool-container" style="position: relative; z-index: 3;">
                 <h1>Make Your PFP EPIC</h1>
                 <div class="upload-container">
-                    <!-- Custom button that users see -->
-                    <button id="uploadButton">Upload Image</button>
-                    <button id="downloadButton" style="display:none;">Download Image</button>
-                    <!-- Hidden file input -->
+                    <button id="uploadButton" class="blob-button">Upload Image</button>
+                    <button id="downloadButton" class="blob-button" style="display:none;">Download Image</button>
                     <input type="file" id="fileUpload" accept="image/*" style="display: none;">
                 </div>
                 <div id="crownContainer" style="z-index: 10;">
-                    <img src="https://raw.githubusercontent.com/snoop-frog/cipe/main/3721ACB6-755A-4E05-B754-D6DB4E2B1190.png" alt="Crown 1" class="crown" onclick="addCrown(this)">
-                    <img src="https://raw.githubusercontent.com/snoop-frog/cipe/main/0D0B7ECA-DB64-4620-ADFF-D24FF6AE21DE.png" alt="Crown 2" class="crown" onclick="addCrown(this)">
+                    <img src="https://raw.githubusercontent.com/snoop-frog/cipe/main/0D0B7ECA-DB64-4620-ADFF-D24FF6AE21DE.png" alt="Crown 1" class="crown" onclick="addCrown(this)">
+                    <img src="https://raw.githubusercontent.com/snoop-frog/cipe/main/3721ACB6-755A-4E05-B754-D6DB4E2B1190.png" alt="Crown 2" class="crown" onclick="addCrown(this)">
                 </div>
                 <canvas id="canvas" width="800" height="600"></canvas>
             </div>
         </section>
         <section class="page3">
-            <h1>$EPIC IS EPIC</h1>
-            
-            <p>TWITTER LOGO HERE</p>
-            <p>DISCORD LOGO HERE - COMING SOON</p>
+            <h1>Provenance and Vision</h1>
+            <p>Blob team's co-founder Eloc, previously Pudgy Penguin CTO, inscribed an interactive generative art by Nuro on the sat and used it as a parent to etch the EPIC Rune token on May 4th, paying tribute to Bitcoin pioneer Hal Finney.</p>
+            <p>The vision of EPIC Rune is to become the most epic meme token in the Bitcoin ecosystem and naturally become the top meme coin as the ecosystem grows.</p>
         </section>
     </main>
     <script>
@@ -319,6 +286,22 @@
                 canvas.renderAll();
             }, { crossOrigin: 'anonymous' });
         }
+
+        // Dynamically shape blob buttons
+        document.addEventListener('DOMContentLoaded', function() {
+            const blobButtons = document.querySelectorAll('.blob-button');
+            blobButtons.forEach(button => {
+                const radius1 = Math.floor(Math.random() * 81) + 20; // 20% to 100%
+                const radius2 = Math.floor(Math.random() * 81) + 20;
+                const radius3 = Math.floor(Math.random() * 81) + 20;
+                const radius4 = Math.floor(Math.random() * 81) + 20;
+                const radius5 = Math.floor(Math.random() * 81) + 20;
+                const radius6 = Math.floor(Math.random() * 81) + 20;
+                const radius7 = Math.floor(Math.random() * 81) + 20;
+                const radius8 = Math.floor(Math.random() * 81) + 20;
+                button.style.borderRadius = `${radius1}% ${radius2}% ${radius3}% ${radius4}% / ${radius5}% ${radius6}% ${radius7}% ${radius8}%`;
+            });
+        });
     </script>
 </body>
 </html>
