@@ -240,8 +240,6 @@
     </main>
     <script>
         var canvas = new fabric.Canvas('canvas', {
-            width: 800,
-            height: 600,
             selection: false // Disable group selection
         });
 
@@ -271,6 +269,10 @@
 
                     canvas.clear();
                     canvas.add(image);
+                    canvas.setDimensions({
+                        width: image.getScaledWidth() + margin * 2,
+                        height: image.getScaledHeight() + margin * 2
+                    });
                     canvas.centerObject(image);
                     canvas.renderAll();
                 };
