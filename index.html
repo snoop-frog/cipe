@@ -346,7 +346,7 @@ canvas {
         function handleDoubleTap(event, callback) {
             const currentTime = new Date().getTime();
             const tapLength = currentTime - lastTap;
-            clearTimeout(this.lastTapTimeout);
+            clearTimeout(lastTapTimeout);
             if (tapLength < 300 && tapLength > 0) {
                 event.preventDefault();
                 callback();
@@ -359,40 +359,29 @@ canvas {
         });
 
         document.getElementById('fileUpload').addEventListener('change', function(e) {
-            console.log("File selected");
             if (this.files && this.files.length > 0) {
                 var reader = new FileReader();
-
                 reader.onload = function(event) {
-                    console.log("File loading complete");
-
                     var imgObj = new Image();
                     imgObj.onload = function() {
-                        console.log("Image object created and loaded");
-
                         if (!canvas) {
                             canvas = new fabric.Canvas('canvas', {
                                 selection: false
                             });
                         }
-
                         var maxCanvasWidth = window.innerWidth * (window.innerWidth > 768 ? 0.7 : 0.9);
                         var maxCanvasHeight = window.innerHeight * (window.innerHeight > 768 ? 0.7 : 0.9);
-
                         var scaleFactor = Math.min(maxCanvasWidth / imgObj.width, maxCanvasHeight / imgObj.height);
                         var canvasWidth = imgObj.width * scaleFactor;
                         var canvasHeight = imgObj.height * scaleFactor;
-
                         var image = new fabric.Image(imgObj, {
                             selectable: false,
                             evented: false,
                         });
-
                         image.scale(scaleFactor).set({
                             left: (canvasWidth - image.getScaledWidth()) / 2,
                             top: (canvasHeight - image.getScaledHeight()) / 2
                         });
-
                         canvas.clear();
                         canvas.setDimensions({
                             width: canvasWidth,
@@ -401,9 +390,8 @@ canvas {
                         canvas.add(image);
                         canvas.centerObject(image);
                         canvas.renderAll();
-
                         document.getElementById('canvasContainer').style.display = 'flex';
-                        document.getElementById('crownContainer').style.display = 'flex'; // Show crownContainer
+                        document.getElementById('crownContainer').style.display = 'flex';
                         document.getElementById('searchQuery').style.display = 'block';
                         document.getElementById('uploadCrown').style.display = 'none';
                         document.getElementById('buttonContainer').style.display = 'flex';
@@ -412,10 +400,7 @@ canvas {
                     };
                     imgObj.src = event.target.result;
                 };
-
                 reader.readAsDataURL(this.files[0]);
-            } else {
-                console.log("No file selected");
             }
         });
 
@@ -449,7 +434,7 @@ canvas {
                     selectable: true
                 });
                 canvas.add(memeText);
-                document.getElementById('memeTextInput').value = ''; // Clear the input field
+                document.getElementById('memeTextInput').value = '';
                 canvas.setActiveObject(memeText);
                 canvas.renderAll();
             }
@@ -459,25 +444,20 @@ canvas {
             const query = document.getElementById('searchQuery').value;
             const thumbnailContainer = document.getElementById('thumbnailContainer');
             const canvasContainer = document.getElementById('canvasContainer');
-
             canvasContainer.style.display = 'none';
-
             if (query.length < 3) {
                 thumbnailContainer.innerHTML = '';
                 thumbnailContainer.style.display = 'none';
                 canvasContainer.style.display = 'flex';
                 return;
             }
-
             thumbnailContainer.style.display = 'grid';
-
             const url = `https://corsproxy.io/?https://imgflip.com/memesearch?q=${encodeURIComponent(query)}`;
             const response = await fetch(url);
             const text = await response.text();
             const parser = new DOMParser();
             const doc = parser.parseFromString(text, 'text/html');
             const memeElements = doc.querySelectorAll('.mt-boxes .mt-box .mt-img-wrap a img');
-
             thumbnailContainer.innerHTML = '';
             let count = 0;
             memeElements.forEach(meme => {
