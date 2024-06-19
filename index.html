@@ -314,58 +314,83 @@
             document.getElementById('fileUpload').click();
         });
 
-        document.getElementById('fileUpload').addEventListener('change', function(e) {
-            var reader = new FileReader();
-            reader.onload = function(event) {
-                var imgObj = new Image();
-                imgObj.onload = function() {
-                    if (!canvas) {
-                        canvas = new fabric.Canvas('canvas', {
-                            selection: false
-                        });
-                    }
+document.getElementById('fileUpload').addEventListener('change', function(e) {
+    console.log("File selected");
+    // Check if the file input has files selected
+    if (this.files && this.files.length > 0) {
+        var reader = new FileReader(); // Create a new instance of FileReader
 
-                    var maxCanvasWidth = window.innerWidth * (window.innerWidth > 768 ? 0.7 : 0.9);
-                    var maxCanvasHeight = window.innerHeight * (window.innerHeight > 768 ? 0.7 : 0.9);
+        // Define what happens when the file has been successfully read
+        reader.onload = function(event) {
+            console.log("File loading complete");
 
-                    var scaleFactor = Math.min(
-                        maxCanvasWidth / imgObj.width,
-                        maxCanvasHeight / imgObj.height
-                    );
+            // Create a new image object
+            var imgObj = new Image();
+            imgObj.onload = function() {
+                console.log("Image object created and loaded");
 
-                    var canvasWidth = imgObj.width * scaleFactor;
-                    var canvasHeight = imgObj.height * scaleFactor;
-
-                    var image = new fabric.Image(imgObj, {
-                        selectable: false,
-                        evented: false,
+                // Check if canvas has been initialized
+                if (!canvas) {
+                    canvas = new fabric.Canvas('canvas', {
+                        selection: false
                     });
-                    image.scale(scaleFactor).set({
-                        left: (canvasWidth - image.getScaledWidth()) / 2,
-                        top: (canvasHeight - image.getScaledHeight()) / 2
-                    });
+                }
 
-                    canvas.clear();
-                    canvas.setDimensions({
-                        width: canvasWidth,
-                        height: canvasHeight
-                    });
-                    canvas.add(image);
-                    canvas.centerObject(image);
-                    canvas.renderAll();
+                // Calculate maximum canvas dimensions based on the window size
+                var maxCanvasWidth = window.innerWidth * (window.innerWidth > 768 ? 0.7 : 0.9);
+                var maxCanvasHeight = window.innerHeight * (window.innerHeight > 768 ? 0.7 : 0.9);
 
-                    document.getElementById('canvasContainer').style.display = 'flex';
-                    document.getElementById('crownContainer').style.display = 'block';
-                    document.getElementById('searchQuery').style.display = 'block';
-                    document.getElementById('uploadCrown').style.display = 'none';
-                    document.getElementById('buttonContainer').style.display = 'flex';
-                    document.getElementById('pageTitle').style.display = 'none';
-                    document.getElementById('textInputContainer').style.display = 'flex';
-                };
-                imgObj.src = event.target.result;
+                // Determine the scale factor to fit the image within the canvas
+                var scaleFactor = Math.min(
+                    maxCanvasWidth / imgObj.width,
+                    maxCanvasHeight / imgObj.height
+                );
+
+                // Set canvas dimensions based on scaled image dimensions
+                var canvasWidth = imgObj.width * scaleFactor;
+                var canvasHeight = imgObj.height * scaleFactor;
+
+                // Create a new fabric Image object with the loaded image
+                var image = new fabric.Image(imgObj, {
+                    selectable: false,
+                    evented: false,
+                });
+
+                // Scale and set image position
+                image.scale(scaleFactor).set({
+                    left: (canvasWidth - image.getScaledWidth()) / 2,
+                    top: (canvasHeight - image.getScaledHeight()) / 2
+                });
+
+                // Clear canvas, set its dimensions, and add the new image
+                canvas.clear();
+                canvas.setDimensions({
+                    width: canvasWidth,
+                    height: canvasHeight
+                });
+                canvas.add(image);
+                canvas.centerObject(image);
+                canvas.renderAll();
+
+                // Show or adjust UI elements as necessary
+                document.getElementById('canvasContainer').style.display = 'flex';
+                document.getElementById('crownContainer').style.display = 'block';
+                document.getElementById('searchQuery').style.display = 'block';
+                document.getElementById('uploadCrown').style.display = 'none';
+                document.getElementById('buttonContainer').style.display = 'flex';
+                document.getElementById('pageTitle').style.display = 'none';
+                document.getElementById('textInputContainer').style.display = 'flex';
             };
-            reader.readAsDataURL(e.target.files[0]);
-        });
+            imgObj.src = event.target.result; // Set the source of the image object to the file data
+        };
+
+        // Read the file as a Data URL (base64 string) 
+        reader.readAsDataURL(this.files[0]);
+    } else {
+        console.log("No file selected");
+    }
+});
+
 
         document.getElementById('newUploadButton').addEventListener('click', function() {
             document.getElementById('fileUpload').click();
