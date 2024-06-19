@@ -342,6 +342,7 @@ canvas {
     <script>
         var canvas;
         let lastTap = 0;
+        let isFileSelected = false;
 
         function handleDoubleTap(event, callback) {
             const currentTime = new Date().getTime();
@@ -355,11 +356,14 @@ canvas {
         }
 
         document.getElementById('uploadCrown').addEventListener('click', function() {
-            document.getElementById('fileUpload').click();
+            if (!isFileSelected) {
+                document.getElementById('fileUpload').click();
+            }
         });
 
         document.getElementById('fileUpload').addEventListener('change', function(e) {
             if (this.files && this.files.length > 0) {
+                isFileSelected = true;
                 var reader = new FileReader();
                 reader.onload = function(event) {
                     var imgObj = new Image();
@@ -397,6 +401,7 @@ canvas {
                         document.getElementById('buttonContainer').style.display = 'flex';
                         document.getElementById('pageTitle').style.display = 'none';
                         document.getElementById('textInputContainer').style.display = 'flex';
+                        isFileSelected = false;  // Reset after processing
                     };
                     imgObj.src = event.target.result;
                 };
