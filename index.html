@@ -55,7 +55,7 @@
             background-image: url('https://raw.githubusercontent.com/snoop-frog/cipe/main/top1.webp');
         }
         .page2 {
-            background-image: url('https://raw.githubusercontent.com/snoop-frog/cipe/main/middle3.webp');
+            background-image: url('https://raw.githubusercontent.com/snoop-frog/cipe/main/middle2.webp');
         }
         .page3 {
             background-image: url('https://raw.githubusercontent.com/snoop-frog/cipe/main/middle3.webp');
@@ -131,9 +131,9 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            margin-top: 50px; /* Added margin to move it down */
+            margin-top: 20px; /* Added margin to move it down */
         }
-        #canvasContainer, #crownContainer, #downloadButton, #thumbnailContainer, #searchQuery {
+        #canvasContainer, #crownContainer, #thumbnailContainer, #searchQuery {
             display: none; /* Initially hide these elements */
         }
         .crown-instructions {
@@ -238,14 +238,18 @@
                 <h1 id="pageTitle" style="margin-bottom: 20px;">Make Your PFP EPIC</h1>
                 <div class="upload-container" id="uploadContainer" style="margin-bottom: 50px; text-align: center;">
                     <label for="fileUpload">
-                        <img id="uploadCrown" src="https://raw.githubusercontent.com/snoop-frog/cipe/main/crowntrans.png" alt="Upload Image" class="crown" style="cursor: pointer; width: 200px; height: auto;">
+                        <img id="uploadCrown" src="https://raw.githubusercontent.com/snoop-frog/cipe/main/crowntrans.png" alt="Upload Image" style="cursor: pointer; width: 300px; height: auto;">
                     </label>
                     <input type="file" id="fileUpload" accept="image/*" style="display: none;">
-                    <input type="text" id="searchQuery" placeholder="Search normie memes..." style="margin-top: 20px;">
+                    <input type="text" id="searchQuery" placeholder="Search normie memes..." style="margin-top: 20px; display:none;">
                 </div>
                 <div class="thumbnail-container" id="thumbnailContainer"></div>
                 <div id="canvasContainer">
                     <canvas id="canvas"></canvas>
+                </div>
+                <div class="button-container" id="buttonContainer" style="margin-top: 20px; display: none;">
+                    <button id="newUploadButton" class="blob-button">Upload Image</button>
+                    <button id="downloadButton" class="blob-button">Download Image</button>
                 </div>
                 <div id="newBlobButton" style="display: none;">
                     <p>SELECT YOUR CROWN, MOVE, RESIZE AND ROTATE. TO REMOVE, DRAG OFF CANVAS</p>
@@ -257,7 +261,6 @@
                         <img src="https://raw.githubusercontent.com/snoop-frog/cipe/main/0D0B7ECA-DB64-4620-ADFF-D24FF6AE21DE.png" alt="Crown 2" class="crown" onclick="addCrown(this)">
                     </div>
                 </div>
-                <button id="downloadButton" class="blob-button" style="display:none;">Download Image</button>
             </div>
         </section>
         <section class="page3">
@@ -332,13 +335,18 @@
 
                     document.getElementById('canvasContainer').style.display = 'flex';
                     document.getElementById('crownContainer').style.display = 'block';
-                    document.getElementById('downloadButton').style.display = 'inline-block';
                     document.getElementById('searchQuery').style.display = 'block';
+                    document.getElementById('uploadCrown').style.display = 'none';
+                    document.getElementById('buttonContainer').style.display = 'flex';
                     document.getElementById('pageTitle').style.display = 'none';
                 };
                 imgObj.src = event.target.result;
             };
             reader.readAsDataURL(e.target.files[0]);
+        });
+
+        document.getElementById('newUploadButton').addEventListener('click', function() {
+            document.getElementById('fileUpload').click();
         });
 
         document.getElementById('downloadButton').addEventListener('click', function() {
@@ -395,6 +403,8 @@
                 document.getElementById('thumbnailContainer').style.display = 'none';
                 document.getElementById('canvasContainer').style.display = 'flex';
                 document.getElementById('crownContainer').style.display = 'block';
+                document.getElementById('uploadCrown').style.display = 'none';
+                document.getElementById('buttonContainer').style.display = 'flex';
             };
             imgObj.src = src;
         }
