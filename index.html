@@ -69,12 +69,7 @@
             height: auto;
             z-index: 10;
         }
-        .media-links {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-        }
-        .button-container {
+        .media-links, .button-container {
             display: flex;
             justify-content: center;
             gap: 20px;
@@ -89,11 +84,7 @@
             margin: 10px;
             text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
         }
-        h2 {
-            font-size: 2rem;
-            margin: 10px;
-        }
-        p, a {
+        h2, p, a {
             font-size: 1rem;
             max-width: 800px;
             background: rgba(0, 0, 0, 0.4);
@@ -124,27 +115,14 @@
         .blob-button:hover {
             transform: scale(1.1);
         }
-        #crownContainer, #canvasContainer, #downloadButton {
+        #canvasContainer, #crownContainer {
             display: none; /* Initially hide these elements */
-        }
-        .crown-instructions {
-            color: white;
-            background: rgba(0, 0, 0, 0.6);
-            padding: 8px 20px;
-            border-radius: 5px;
-            margin-top: 20px;
         }
         #uploadContainer {
             display: flex;
             justify-content: center;
             align-items: center;
             height: 0%; /* Adjust based on your design needs */
-        }
-        #canvasContainer {
-            display: flex;
-            justify-content: center;
-            alignItems: center;
-            width: 100%;
         }
         canvas {
             touch-action: none;
@@ -219,20 +197,22 @@
         <section class="page2">
             <div class="image-tool-container" id="imageToolContainer" style="position: relative; z-index: 3;">
                 <h1 id="pageTitle" style="margin-bottom: 150px;">Make Your PFP EPIC</h1>
-                <div class="upload-container" id="uploadContainer" style="margin-bottom: 50px; text-align: center;">
+                <div class="upload-container" id="uploadContainer" style="margin-bottom: 0px; text-align: center;">
                     <label for="fileUpload">
                         <img id="uploadCrown" src="https://raw.githubusercontent.com/snoop-frog/cipe/main/crowntrans.png" alt="Upload Image" class="crown" style="cursor: pointer; width: 200px; height: auto;">
                     </label>
                     <input type="file" id="fileUpload" accept="image/*" style="display: none;">
                 </div>
+                <div id="newBlobButton" style="display: none;">
+            <p>SELECT YOUR CROWN, MOVE, RESIZE AND ROTATE. TO REMOVE, DRAG OFF CANVAS</p>
+                </div>
                 <div id="crownContainer" style="z-index: 10;">
-                    <div class="crown-instructions">SELECT YOUR CROWN - DRAG OFF CANVAS TO REMOVE</div>
                     <div class="crown-row">
                         <img src="https://raw.githubusercontent.com/snoop-frog/cipe/main/3721ACB6-755A-4E05-B754-D6DB4E2B1190.png" alt="Crown 1" class="crown" onclick="addCrown(this)">
                         <img src="https://raw.githubusercontent.com/snoop-frog/cipe/main/0D0B7ECA-DB64-4620-ADFF-D24FF6AE21DE.png" alt="Crown 2" class="crown" onclick="addCrown(this)">
                     </div>
                 </div>
-                <div id="canvasContainer" style="display:none;">
+                <div id="canvasContainer" style="display:flex; flex-direction: column; align-items: center;">
                     <canvas id="canvas"></canvas>
                     <button id="downloadButton" class="blob-button" style="display:none;">Download Image</button>
                 </div>
@@ -265,43 +245,53 @@
         }
 
         document.getElementById('fileUpload').addEventListener('change', function(e) {
+            processImageUpload(e.target.files[0]);
+        });
+
+        function processImageUpload(file) {
             var reader = new FileReader();
             reader.onload = function(event) {
                 var imgObj = new Image();
                 imgObj.onload = function() {
-                    if (!canvas) {
-                        canvas = new fabric.Canvas('canvas', {
-                            selection: false // Disable group selection
-                        });
-                    }
-                    var maxCanvasWidth = window.innerWidth * (window.innerWidth > 768 ? 0.7 : 0.9);
-                    var maxCanvasHeight = window.innerHeight * (window.innerHeight > 768 ? 0.7 : 0.9);
-                    var scaleFactor = Math.min(maxCanvasWidth / imgObj.width, maxCanvasHeight / imgObj.height);
-                    var canvasWidth = imgObj.width * scaleFactor;
-                    var canvasHeight = imgObj.height * scaleFactor;
-                    var image = new fabric.Image(imgObj, {
-                        selectable: false,
-                        evented: false,
-                    });
-                    image.scale(scaleFactor).set({
-                        left: (canvasWidth - image.getScaledWidth()) / 2,
-                        top: (canvasHeight - image.getScaledHeight()) / 2
-                    });
-                    canvas.clear();
-                    canvas.setDimensions({ width: canvasWidth, height: canvasHeight });
-                    canvas.add(image);
-                    canvas.centerObject(image);
-                    canvas.renderAll();
-                    document.getElementById('canvasContainer').style.display = 'flex';
-                    document.getElementById('crownContainer').style.display = 'block';
-                    document.getElementById('downloadButton').style.display = 'inline-block';
-                    document.getElementById('pageTitle').style.display = 'none';
-                    styleBlobButton();
+                    setupCanvas(imgObj);
+                    document.getElementById('uploadCrown').style.display = 'none'; // Hides the crown image
+                    document.getElementById('downloadButton').style.display = 'inline-block'; // Show the download button
+                    document.getElementById('newBlobButton').style.display = 'block'; // Show new action button
+                    document.querySelector('.crown-instructions').style.display = 'block'; // Show instructions
                 };
                 imgObj.src = event.target.result;
             };
-            reader.readAsDataURL(e.target.files[0]);
-        });
+            reader.readAsDataURL(file);
+        }
+
+        function setupCanvas(imgObj) {
+            if (!canvas) {
+                canvas = new fabric.Canvas('canvas', {
+                    selection: false
+                });
+            }
+            var maxCanvasWidth = window.innerWidth * (window.innerWidth > 768 ? 0.7 : 0.9);
+            var maxCanvasHeight = window.innerHeight * (window.innerHeight > 768 ? 0.7 : 0.9);
+            var scaleFactor = Math.min(maxCanvasWidth / imgObj.width, maxCanvasHeight / imgObj.height);
+            var canvasWidth = imgObj.width * scaleFactor;
+            var canvasHeight = imgObj.height * scaleFactor;
+            var image = new fabric.Image(imgObj, {
+                selectable: false,
+                evented: false,
+            });
+            image.scale(scaleFactor).set({
+                left: (canvasWidth - image.getScaledWidth()) / 2,
+                top: (canvasHeight - image.getScaledHeight()) / 2
+            });
+            canvas.clear();
+            canvas.setDimensions({ width: canvasWidth, height: canvasHeight });
+            canvas.add(image);
+            canvas.centerObject(image);
+            canvas.renderAll();
+            document.getElementById('canvasContainer').style.display = 'flex'; // Show the canvas container
+            document.getElementById('crownContainer').style.display = 'block'; // Show crown selection
+            document.getElementById('pageTitle').style.display = 'none'; // Optional: Hide page title if not needed
+        }
 
         document.getElementById('downloadButton').addEventListener('click', function() {
             const dataUrl = canvas.toDataURL({
@@ -340,21 +330,6 @@
                 canvas.setActiveObject(img);
                 canvas.renderAll();
             }, { crossOrigin: 'anonymous' });
-        }
-
-        function styleBlobButton() {
-            const blobButtons = document.querySelectorAll('.blob-button');
-            blobButtons.forEach(button => {
-                const radius1 = Math.floor(Math.random() * 81) + 20; // 20% to 100%
-                const radius2 = Math.floor(Math.random() * 81) + 20;
-                const radius3 = Math.floor(Math.random() * 81) + 20;
-                const radius4 = Math.floor(Math.random() * 81) + 20;
-                const radius5 = Math.floor(Math.random() * 81) + 20;
-                const radius6 = Math.floor(Math.random() * 81) + 20;
-                const radius7 = Math.floor(Math.random() * 81) + 20;
-                const radius8 = Math.floor(Math.random() * 81) + 20;
-                button.style.borderRadius = `${radius1}% ${radius2}% ${radius3}% ${radius4}% / ${radius5}% ${radius6}% ${radius7}% ${radius8}%`;
-            });
         }
     </script>
 </body>
